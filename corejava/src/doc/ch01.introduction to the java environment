@@ -1,0 +1,226 @@
+## The Language, the JVM, and the Ecosystem
+
+- java programming environment 诞生于1990s，由Java语言+runtime support（JVM）组成
+- .Net vs Java：.Net开源力度没有Java开源力度大
+- Java成功的主要原因之一是该生态环境是一个标准化的环境。这意味着存在构成环境的技术规范。
+  这些标准使开发人员和消费者相信该技术将与其他组件兼容，即使它们来自其他技术供应商也是如此。
+```
+从Java 11开始，Java的主要参考实现是开源Open JDK，
+许多这些公司都在此基础上进行协作并以其输出产品为基础    
+```
+- Java Mobile Edition（Java ME），
+  Java Standard Edition（Java SE），
+  Java Enterprise Edition（Java EE）
+
+### What is the Java Language?
+
+- 人类可读的编程语言
+- 类型严格，面向对象
+- 语法类似C和C++
+```
+尽管源代码和C++类似，但是Java包含功能和托管运行时，它与诸如Smalltalk之类的更多动态语言由更多共同点
+```
+- java8: lambda表达式，Collections核心代码全面修改
+- java9： 平台模块系统（JPMS）
+
+### What is the JVM?
+
+- JVM是一个提供运行Java程序必要运行时环境（runtime environment）的程序
+- 当JVM接受Java程序执行时，该程序未作为Java语言源代码提供。
+  相反，必须将Java语言源转换（或编译）为一种称为Java字节码的形式。
+  Java字节码必须以称为类文件（始终具有.class扩展名）的格式提供给JVM。
+- JVM为程序提供执行环境。
+  它启动程序的字节码形式的解释程序，该解释程序一次执行一个字节码指令。
+  但是，生产JVM还提供了一个运行时编译器，可以通过用等效的已编译机器代码替换它们来加速程序的重要部分。
+  
+- JVM目标
+  
+  * 包含一个用于在其中运行应用程序代码的容器
+  * 与C / C++相比，提供安全可靠的执行环境
+  * 将内存管理从开发人员手中解放出来
+  * 提供跨平台执行环境
+    
+- JIT编译器（Just in time compilation）利用以下编译事实：
+  * 并非Java程序的所有部分在程序的生命周期内都同样可能被调用，某些部分的调用频率远高于其他部分。
+- HotSpot JVM
+  * JVM首先确定程序的那些部分最常被称为"热方法"。然后，JVM绕过JVM解释器，将这些热门方法直接编译为机器代码。
+
+### What is the Java Ecosystem?
+
+丰富的生态系统和一流的虚拟机与程序二进制开放标准的结合，使Java平台成为非常由吸引力的执行目标。
+实际上，有许多针对JVM并与Java互操作的非java语言（这使它们可以从平台的成功中获益）。
+这些语言包括Kotlin,Scala,Groovy等。
+尽管与Java相比，它们都很小，但它们在Java世界中具有独特的优势，并为Java提供了创新和健康竞争的源泉。
+
+### A Brief History of Java and the JVM
+- Java 1.0 (1996)
+  > 212 classes, 8 packages <br>
+  > Java 1.0 仍旧运行在Java 11中，没有修改或重新编译
+- Java 1.1 (1997)
+  > inner classes <br>
+  > the first version of the Reflection API
+- Java 1.2 (1998)
+  > Java Collections API (with sets, maps, and lists)
+- Java 1.3 (2000)
+  > 引入HotSpot JVM.
+- Java 1.4 (2002)
+  > I/O API <br>
+  > regular expressions for text handling <br>
+  > XML and XSLT libraries <br>
+  > SSL support <br>
+  > logging api <br>
+  > cryptography support
+- Java 5 (2004)
+  > generic types 范型 <br>
+  > enumerated types(enums) <br>
+  > annotations <br>
+  > varargs methods <br>
+  > autoboxing <br>
+  > a new **for** loop <br>
+  > utilities for concurrent programming, a remote management framework, and classes for the remote management and instrumentation of the Java VM itself.
+- Java 6 (2006)
+  > Compiler API, expanded the usage and scope of annotations
+  > provided bindings to allow scripting languages to interoperate with java
+  > swing gui 
+- Java 7 (2011)
+  > **try**-with-resources and the NIO.2 API enabled developers to write much safer and less error-prone code for handling resources and I/O.
+  > The Method Handles API provided a simpler and safer alternative to reflection;
+  > opened the door for **invokedynamic** (the first new bytecode since version 1.0 of Java).
+- Java 8 (2014)(LTS)
+  > lambda expressions provided the ability to significantly enhance the productivity of developers.
+  > the Collections were updated to make use of lambdas, and the machinery required to achieve this marked a fundamental change in Java's approach to object orientation.
+  > a new date and time API
+  > major updates to the concurrency libraries.
+- Java 9 (2017)
+  > the new platform modularity feature, allows Java applications to be packaged into deployment units and modularize the platform runtime.
+  > include a new default garbage collection algorithm.
+  > include a new API for handling processed.
+  > changes to the way that frameworks can access the internals.
+- Java 10(March 2018)
+  
+- Java 11(September 2018)(LTS)
+  > primarily Flight Recorder and new HTTP/2 API.
+  
+
+### The Lifecycle of a Java Program
+
+```
+.java -(javac)-> .class -(classloading)-> [New Type]
+```
+>This starts with Java source, and passes it through the **javac** program to produce class files <br>
+> which contain the source code compiled to Java bytecode. <br>
+> The class file is the smallest unit of functionality the platform will deal with, <br>
+> and the only way to get new code into a running program.
+> 
+> New class files are onboarded via the classloading mechanism. This makes the new type available to the interpreter for execution.
+
+### Frequently Asked Questions
+#### What is bytecode?
+<p>当开发人员首次被引入JVM时，他们有时将其视为"计算机内部的计算机"。这样就很容易将字节码想象为"内部计算机CPU的机器代码"或"组合处理器的机器码"。</p>
+<p>实际上，字节码实际上与在真实硬件处理器上运行的机器码并不十分相似。取而代之的是，计算机科学家将字节码称为一种中间表示形式，即介于源代码和机器代码之间的中间位置</p>
+<p>字节码的全部目标是成为一种可以由JVM的解释器有效执行的格式。</p>
+
+#### Is Javac a compiler?
+<p>编译器通常产生机器代码，但是javac产生字节代码，这与机器代码不太相似。但是，类文件有点像目标文件（例如Windows .dll文件或Unix .so文件），并且他们肯定不是人类可读的</p>
+<p>用理论上的计算机科学术语来说，javac最类似于编译器的前半部分-它创建中间表示，然后可用于稍后产生（发出）机器代码。</p>
+<p>但是，由于类文件的创建是一个单独的构建时步骤，类似于C/C++中的编译，因此许多开发人员都认为将javac运行为编译过程。在本书中，我们将使用术语"源代码编译器"或"javac编译器"来表示javac生成的类文件。</p>
+<p>我们将保留"编译"作为独立术语来表示JIT编译，因为它实际上是生成机器代码的JIT编译。</p>
+
+#### Why is it called "BYTECODE"?
+<p>指令代码（opcode）只是一个字节（某些操作在字节流中也具有跟随它们的参数），因此只有256条可能的指令。实际上，其中一些未被使用-大约有200个正在使用中，但是其中一些不是最新版本的javac所发出的</p>
+
+#### Is bytecode optimized?
+<p>在该平台的早期，javac产生了高度优化的字节码。原来这是一个错误。随着JIT编译的出现，重要的方法将被编译为非常快的机器代码。因此，简化JIT编译器的工作非常重要，因此JIT编译的收益要比优化字节码的收益大的多，而这仍然需要解释。</p>
+
+#### Is bytecode really machine independent? what about things link endianness?
+<p>字节码的格式始终相同，无论在何种类型的机器上创建字节码。这包括机器的字节顺序（有时称为"字节序"）。对于对细节感兴趣的读者，字节码始终是big-endian。</p>
+
+#### Is java an interpreted language?
+<p>JVM基本上是一个解释器（通过JIT编译可以大大提高性能）。但是，大多数解释语言（例如PHP，Perl，Ruby和Python）直接从源代码形式解释程序（通常通过从输入源文件构造抽象语法树）。另一方面，JVM解释器需要类文件-当然，这需要使用javac进行单独的源代码编译步骤。</p>
+
+#### Can other languages run on the jvm?
+<p>是。JVM可以运行如何有效的类文件，因此这意味着非Java语言可以通过以下两种方式之一在JVM上运行。首先，他们可以有一个生成类文件的源代码编译器（类似于javac），该类文件可以像Java代码一样在JVM上运行（这是Scala之类的语言所采用的方法）。</p>
+<p>或者，非Java语言可以用Java实现解释器和运行时，然后直接解释其语言的源形式。第二种选择是JRuby之类的语言所采用的方法（但是JRuby具有非常复杂的运行时，在某些情况下能钩进行辅助JIT编译）。</p>
+
+### Java Security
+
+### Comparing Java to Other Languages
+#### Java VS C
+- Java是面向对象的；C是程序性的。
+- Java可移植为类文件；C需要重新编译。
+- Java在运行是提供了广泛的工具。
+- Java没有指针，也没有等效的指针算法。
+- Java通过垃圾回收提供自动内存管理。
+- Java无法在低级别（无结构）上布置内存。
+- Java没有预处理器。
+
+#### Java VS C++
+- 与C++相比，Java具有简化的对象模型。
+- 默认情况下，Java的调度是虚拟的。
+- Java始终是按值传递的（但是Java值的一种可能是对象引用）。
+- Java 不支持完整的多种继承。
+- Java的泛型不如C++模版强大（但危险性也较小）。
+- Java没有运算符重载。
+
+#### Java VS Python
+- Java是静态类型的；Python是动态类型的。
+- Java是多线程的；Python只允许一个线程一次执行Python。
+- Java有一个JIT；Python的主要实现没有。
+- Java的字节码具有广泛的静态检查；Python的字节码没有。
+
+#### Java VS JavaScript
+- Java是静态类型的；JavaScript是动态类型的。
+- Java使用基于类的对象；JavaScript是基于原型的。
+- Java提供了很好的对象封装；JavaScript没有。
+- Java有名称空间；Javascript没有。
+- Java是多线程的；Javascript不是。
+
+### Answering Some Criticisms of Java
+<p>Java在公众眼中已有很长的历史，因此，多年来吸引了很多批评。这中负面新闻中的一些可以归因于Java的第一个版本中的一些技术缺陷以及相当狂热的营销。</p>
+<p>尽管不再十分准确，但一些批评已进入技术民俗。在本部分中，我们将介绍一些常用的抱怨以及他们在现代版本平台上的正确程度。</p>
+
+#### Overly Verbose （过于详细）
+> Java核心语言有时被批评为过于冗长。甚至是简单的Java语句，例如 
+`Object o = new Object();`似乎是重复的-对象类型出现在作业的左侧和右侧。批评者指出，这本质上是多余的，其他语言不需要这种类型信息的重复，并且许多语言都支持将其删除的功能（例如，类型推断）。
+> 与该论点相反的是，Java从一开始就被设计为易于阅读（代码的阅读比书面的阅读更为频繁），并且许多程序员（尤其是新手）发现额外的类型信息在阅读代码时很有用。
+> Java广泛用于企业环境，企业环境通常具有独立的开发和运营团队。当您响应中断呼叫时，或者当您需要维护和修补由已经长期从事开发工作的开发人员编写的代码时，多余的细节通常可能是一种祝福。
+> 在Java的最新版本中，语言设计人员试图通过找到语法可以变得不太冗长的位置更好地利用类型信息来对其中的一些问题做出响应。例如：
+```java
+// Files helper methods
+byte[] contents = Files.readAllBytes(Paths.get("/home/ben/myFile.bin"));
+// Diamond syntax for repeated type information
+List<String> l = new ArrayList<>();
+// Local variables can be type inferred
+var threadPool = Executors.newScheduledThreadPool(2);
+// Lambda expressions simplify Runnables
+threadPool.submit(() -> { System.out.println("On Threadpool"); });
+```
+>但是，Java的总体哲学是仅非常缓慢和谨慎地对语言进行更改，因此这些更改的速度可能无法完全满足批评者的要求。
+
+#### Slow to Change （变慢）
+> 最初的Java语言已经有20多年的历史了，那时还没有经过完整的修订。在同一时期，许多其他语言（例如Microsoft的C#）已经发布了向后不兼容的版本，一些开发人员批评Java并没有这样做。
+> 此外，近年来，Java语言因采用缓慢的语言功能而受到抨击，而这些语言功能现在在其他语言中已经很普遍了。
+> Sun（以及现在的Oracle）采用的保守的语言设计方法是试图避免将错误功能的成本和外部性强加给庞大的用户群。许多Java商店都对该技术进行了重大投资，并且语言设计人员已认真承担了不破坏现有用户和安装基础的责任。
+> 每个新的语言功能都需要非常仔细地考虑-不仅是孤立的，而且是如何与该语言的所有现有功能交互的。新功能有时可能会产生超出其直接范围的影响-Java已在超大型代码库中广泛使用，超大型代码库中有更多潜在的地方可以显示意外的交互。
+> 交付后证明是不正确的功能几乎是不可能的。Java具有一些功能食物（例如终极机制），在不影响安装基础的情况下，它永远不可能安全地删除。语言设计师认为，在开发语言时需要格外谨慎。
+> 话虽如此，最新版本中出现的新语言功能是朝着解决有关缺少功能的最常见抱怨迈出的重要一步，并且应涵盖开发人员一直在要求的许多惯用法。
+
+#### Performance Problems (性能问题)
+> Java平台有时仍被批评为运行缓慢，但是在对该平台提出的所有批评中，这可能是最没有道理的。这是关于平台的真实神话。
+> HotSpot虚拟机及其JIT编译器附带的Java 1.3版。从那时起，虚拟机及其性能已有超过15年的不断创新和改进。Java平台现在速度飞快，经常在流行的框架上赢得性能基准测试，甚至击败了本机编译的C和C++。
+> 对这一领域的批评似乎主要是由于人们对Java在过去某个时候的运行缓慢感到记忆犹新。使用Java的一些更大，更广泛的体系结构也可能对这种印象有所贡献。
+> 事实是，任何大型体系结构都需要进行基准测试，分析和性能调整，以充分利用其最佳性能-Java也不例外。
+> 该平台的核心（语言和JVM）曾经是并且仍然是开发人员可以使用的最快的通用环境之一。
+
+#### Insecure （不安全）
+> 2013年期间，Java平台中存在许多安全漏洞，这导致Java 8 的发布日期被推迟。甚至在此之前，有人就批评过Java的安全漏洞记录。
+> 其中许多漏洞涉及Java系统的桌面和GUI组件，不会影响网站或其他用Java编写的服务器代码。
+> 所有编程平台有时都存在安全问题，许多其他语言都有类似的安全漏洞历史记录，而这些漏洞的知名度大大降低了。
+
+#### Too Corporate （企业太多）
+> Java是公司和企业开发人员广泛使用的平台。因此，认为它过于公司话就不足为奇了 - Java通常被认为缺乏"随心所欲"风格的语言，这些语言被认为更面向社区。
+> 实际上，Java一直是并且仍然是社区和自由或开源社区开发中使用非常广泛的语言。对于GitHub和其他项目托管站点上托管项目，它是最受欢迎的语言之一。
+> 最后，该语言本身使用最广泛的实现基于OpenJDK，它本身是一个开源项目，社区活跃且不断发展。
+---
+1. Java ME是智能手机和功能手机的较早标准。如今，Android 和 iOS 在手机上更为普遍，但是Java ME仍然是嵌入式设备的巨大市场。
+2. Java EE现在已转移到Eclipse Foundation，在该基金会中继续其Jakarta EE项目的生命。
